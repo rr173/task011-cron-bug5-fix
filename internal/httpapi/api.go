@@ -113,7 +113,8 @@ func (a *API) next(w http.ResponseWriter, r *http.Request) {
 	}
 	from, err := time.Parse(time.RFC3339, req.From)
 	if err != nil {
-		from = time.Now()
+		writeError(w, cron.ErrBadFromTime)
+		return
 	}
 	nx, err := e.Next(from)
 	if err != nil {
